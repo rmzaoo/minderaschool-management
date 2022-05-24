@@ -1,0 +1,15 @@
+springdoc:
+    swagger-ui:
+        path: /swagger-ui.html
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_DATABASE}
+    username: ${DB_USER}
+    password: ${DB_PASSW}
+  jpa:
+    hibernate:
+        ddl-auto: create-drop
+    show-sql: false
+    properties:
+        hibernate:
+            format_sql: false
