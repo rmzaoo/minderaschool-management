@@ -1,6 +1,7 @@
 package com.mindera.schoolmanagement.service.classroom
 
 import com.mindera.schoolmanagement.dto.classroomDto.*
+import com.mindera.schoolmanagement.exception.exceptions.ClassroomNotFoundException
 import com.mindera.schoolmanagement.persistence.entity.ClassroomEntity
 import com.mindera.schoolmanagement.persistence.repository.ClassroomRepository
 import lombok.RequiredArgsConstructor
@@ -23,7 +24,7 @@ class ClassroomServiceImpl(private val classroomRepository: ClassroomRepository)
 
     override fun getClassroomById(id: Long): DetailsClassroomDTO {
         val classroomEntity: ClassroomEntity = classroomRepository.findById(id)
-            .orElseThrow { throw RuntimeException("Classroom not found") }
+            .orElseThrow { throw ClassroomNotFoundException("Classroom with id $id not found") }
 
         return convertToDetailsClassroomDTO(classroomEntity)
     }
