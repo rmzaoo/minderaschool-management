@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component
 
 
 class DetailsClassroomDTO(
+    var id: Long? = null,
     var name: String? = null,
     var teachers: List<EmployeeEntity>? = null,
     var students: List<EmployeeEntity>? = null
@@ -17,6 +18,7 @@ fun convertToClassroomEntity(dto: DetailsClassroomDTO): ClassroomEntity {
     list.addAll(dto.teachers!!)
     list.addAll(dto.students!!)
     return ClassroomEntity(
+        id = dto.id,
         name = dto.name,
         employeeEntities = list
     )
@@ -24,6 +26,7 @@ fun convertToClassroomEntity(dto: DetailsClassroomDTO): ClassroomEntity {
 
 fun convertToDetailsClassroomDTO(entity: ClassroomEntity): DetailsClassroomDTO {
     return DetailsClassroomDTO(
+        id = entity.id,
         name = entity.name,
         teachers = entity.employeeEntities?.filter { it.employeeType.name == "TEACHER" }?.toList() ?: listOf(),
         students = entity.employeeEntities?.filter { it.employeeType.name == "STUDENT" }?.toList() ?: listOf()

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 @Slf4j
 class ClassroomController(private val classroomService: ClassroomService) {
 
-
     @GetMapping("/classroom")
     fun getAllClassrooms(): ResponseEntity<List<DetailsClassroomDTO>> {
         return ResponseEntity.ok(classroomService.getAllClassrooms())
