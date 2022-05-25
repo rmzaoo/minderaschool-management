@@ -6,8 +6,6 @@ import com.mindera.schoolmanagement.persistence.entity.ClassroomEntity
 import org.springframework.stereotype.Service
 
 @Service
-
-
 interface ClassroomService {
     fun getAllClassrooms(): List<DetailsClassroomDTO>
 
