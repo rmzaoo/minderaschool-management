@@ -1,9 +1,14 @@
 package com.mindera.schoolmanagement.dto.classroomDto
 
-import lombok.Builder
+import com.mindera.schoolmanagement.persistence.entity.ClassroomEntity
 
-@Builder
 data class CreateOrUpdateClassroomDTO(
-    var id: Int,
-    var name: String,
+    var name: String? = null,
 )
+
+
+fun convertToClassroomEntity(dto: CreateOrUpdateClassroomDTO): ClassroomEntity {
+    return ClassroomEntity(
+        name = dto.name
+    )
+}
