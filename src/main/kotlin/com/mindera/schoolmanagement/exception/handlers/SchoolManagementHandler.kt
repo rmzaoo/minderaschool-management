@@ -1,6 +1,7 @@
 package com.mindera.schoolmanagement.exception.handlers
 
 import com.mindera.schoolmanagement.exception.exceptions.ClassroomNotFoundException
+import com.mindera.schoolmanagement.exception.exceptions.EmployeeNotFoundException
 import com.mindera.schoolmanagement.exception.model.SchoolManagementError
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class SchoolManagementHandler : ResponseEntityExceptionHandler() {
 
-    @ExceptionHandler(ClassroomNotFoundException::class)
+    @ExceptionHandler(value = [ClassroomNotFoundException::class, EmployeeNotFoundException::class])
     fun handleNotFoundException(ex: Exception, req: HttpServletRequest): ResponseEntity<SchoolManagementError> {
         val error: SchoolManagementError = SchoolManagementError(
             message = ex.message,

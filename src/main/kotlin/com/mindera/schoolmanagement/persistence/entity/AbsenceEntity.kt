@@ -1,5 +1,7 @@
 package com.mindera.schoolmanagement.persistence.entity
 
+import java.time.LocalDate
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -13,5 +15,12 @@ class AbsenceEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employees_id")
-    var employeeEntity: EmployeeEntity? = null
+    var employeeEntity: EmployeeEntity? = null,
+
+    @Column(nullable = false)
+    var date: LocalDate? = null,
+
+    @Column(nullable = false)
+    var reason: String? = null
+
 )

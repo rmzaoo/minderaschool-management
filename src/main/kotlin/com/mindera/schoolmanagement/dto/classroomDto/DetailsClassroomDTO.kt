@@ -2,34 +2,30 @@ package com.mindera.schoolmanagement.dto.classroomDto
 
 import com.mindera.schoolmanagement.persistence.entity.ClassroomEntity
 import com.mindera.schoolmanagement.persistence.entity.EmployeeEntity
-import org.springframework.stereotype.Component
+import java.util.stream.Collectors
 
 
-class DetailsClassroomDTO(
+data class DetailsClassroomDTO(
     var id: Long? = null,
     var name: String? = null,
-    var teachers: List<EmployeeEntity>? = null,
-    var students: List<EmployeeEntity>? = null
+    var teachers: List<Long?>? = null,
+    var students: List<Long?>? = null
 )
 
 
-fun convertToClassroomEntity(dto: DetailsClassroomDTO): ClassroomEntity {
-    val list = mutableListOf<EmployeeEntity>()
-    list.addAll(dto.teachers!!)
-    list.addAll(dto.students!!)
-    return ClassroomEntity(
-        id = dto.id,
-        name = dto.name,
-        employeeEntities = list
-    )
-}
-
 fun convertToDetailsClassroomDTO(entity: ClassroomEntity): DetailsClassroomDTO {
+    val teachers = entity.employeeEntities?.stream()?.filter { it.employeeType?.name == "Teacher" }?.map { it.id }
+        ?.collect(Collectors.toList())
+    val students = entity.employeeEntities?.stream()?.filter { it.employeeType?.name == "Student" }?.map { it.id }
+        ?.collect(Collectors.toList())
+
+
     return DetailsClassroomDTO(
         id = entity.id,
         name = entity.name,
-        teachers = entity.employeeEntities?.filter { it.employeeType.name == "TEACHER" }?.toList() ?: listOf(),
-        students = entity.employeeEntities?.filter { it.employeeType.name == "STUDENT" }?.toList() ?: listOf()
+        teachers = teachers,
+        students = students
     )
 }
+
 

@@ -22,7 +22,7 @@ class EmployeeEntity(
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    var employeeType: EmployeeType = EmployeeType.Student,
+    var employeeType: EmployeeType? = null,
 
     @OneToMany(mappedBy = "employeeEntity", cascade = [CascadeType.ALL])
     var absenceEntities: List<AbsenceEntity>? = null,
