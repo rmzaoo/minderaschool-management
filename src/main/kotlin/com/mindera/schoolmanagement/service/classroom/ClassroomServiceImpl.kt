@@ -4,14 +4,12 @@ import com.mindera.schoolmanagement.dto.classroomDto.*
 import com.mindera.schoolmanagement.exception.exceptions.ClassroomNotFoundException
 import com.mindera.schoolmanagement.persistence.entity.ClassroomEntity
 import com.mindera.schoolmanagement.persistence.repository.ClassroomRepository
-import lombok.RequiredArgsConstructor
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.lang.String
 import java.util.stream.Collectors
 
 @Service
-@RequiredArgsConstructor
 class ClassroomServiceImpl(private val classroomRepository: ClassroomRepository) : ClassroomService {
 
     override fun getAllClassrooms(): List<DetailsClassroomDTO> {

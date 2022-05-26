@@ -1,7 +1,6 @@
 package com.mindera.schoolmanagement.persistence.entity
 
 import com.mindera.schoolmanagement.Enumerator.EmployeeType
-import lombok.*
 import javax.persistence.*
 
 @Entity
