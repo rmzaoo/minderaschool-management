@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
-class EmployeeController(private val employeeService: EmployeeService){
+class EmployeeController(private val employeeService: EmployeeService) {
 
     @GetMapping("/employees")
     fun getAllEmployees(): ResponseEntity<List<DetailsEmployeeDTO>> {
@@ -18,31 +18,29 @@ class EmployeeController(private val employeeService: EmployeeService){
     }
 
     @GetMapping("/employees/{id}")
-    fun getAllEmployees(@PathVariable id : Long): ResponseEntity<DetailsEmployeeDTO> {
+    fun getAllEmployees(@PathVariable id: Long): ResponseEntity<DetailsEmployeeDTO> {
         return ResponseEntity.ok(employeeService.getEmployeeById(id))
     }
 
-    @PostMapping("/employee")
-    fun createEmployee(@RequestBody createOrUpdateEmployeeDTO: CreateOrUpdateEmployeeDTO) : ResponseEntity<DetailsEmployeeDTO> {
+    @PostMapping("/employees")
+    fun createEmployee(@RequestBody createOrUpdateEmployeeDTO: CreateOrUpdateEmployeeDTO): ResponseEntity<DetailsEmployeeDTO> {
         return ResponseEntity.ok(employeeService.createEmployee(createOrUpdateEmployeeDTO))
     }
 
-    @PutMapping("/employee/{id}/classroom/{classroomId}")
-    fun updateClassroom(@PathVariable id: Long, @PathVariable classroomId: Long): ResponseEntity<DetailsEmployeeDTO>{
-        return ResponseEntity.ok(employeeService.updateEmployeeClassroom(id, classroomId))
-    }
+    @PutMapping("/employees/{id}/classroom/{classroomId}")
+    fun updateClassroom(@PathVariable id: Long, @PathVariable classroomId: Long): ResponseEntity<DetailsEmployeeDTO> =
+        ResponseEntity.ok(employeeService.updateEmployeeClassroom(id, classroomId))
 
-    @GetMapping("/employee/{id}/absences/")
-    fun getAbsence(@PathVariable id: Long): ResponseEntity<List<DetailsAbsenceDTO>> {
-        return ResponseEntity.ok(employeeService.getAbsences(id))
-    }
-
-    @GetMapping("/employee/{id}/absences/dates")
+    @GetMapping("/employees/{id}/absences")
     fun getAbsenceBetweenDates(
         @PathVariable id: Long,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?
     ): ResponseEntity<List<DetailsAbsenceDTO>> {
+        startDate
+            ?: return ResponseEntity.ok(employeeService.getAbsences(id)) // if startDate is null, return all absences
+
         return ResponseEntity.ok(employeeService.getEmployeeAbsencesBetweenDates(id, startDate, endDate ?: startDate))
+
     }
 }

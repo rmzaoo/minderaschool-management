@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class ClassroomController(private val classroomService: ClassroomService, private val employeeService: EmployeeService) {
 
-    @GetMapping("/classroom")
+    @GetMapping("/classrooms")
     fun getAllClassrooms(): ResponseEntity<List<DetailsClassroomDTO>> {
         return ResponseEntity.ok(classroomService.getAllClassrooms())
     }
 
-    @GetMapping("/classroom/{id}")
+    @GetMapping("/classrooms/{id}")
     fun getClassroomById(@PathVariable id: Long): ResponseEntity<DetailsClassroomDTO> {
         return ResponseEntity.ok(classroomService.getClassroomById(id))
     }
 
-    @PostMapping("/classroom")
+    @PostMapping("/classrooms")
     fun createClassroom(@RequestBody classroom: CreateOrUpdateClassroomDTO): ResponseEntity<DetailsClassroomDTO> {
         return ResponseEntity.ok(classroomService.createClassroom(classroom))
     }
 
-    @GetMapping("/classroom/{id}/students")
+    @GetMapping("/classrooms/{id}/students")
     fun getStudentsByClassroomId(@PathVariable id: Long): ResponseEntity<List<DetailsEmployeeDTO>> {
         return ResponseEntity.ok(employeeService.getStudentsByClassroomId(id))
     }
 
-    @GetMapping("/classroom/{id}/teachers")
+    @GetMapping("/classrooms/{id}/teachers")
     fun getTeachersByClassroomId(@PathVariable id: Long): ResponseEntity<List<DetailsEmployeeDTO>> {
         return ResponseEntity.ok(employeeService.getTeacherByClassroomId(id))
     }
