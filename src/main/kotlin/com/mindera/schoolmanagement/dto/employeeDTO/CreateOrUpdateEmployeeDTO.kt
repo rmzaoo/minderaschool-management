@@ -9,6 +9,7 @@ data class CreateOrUpdateEmployeeDTO(
     var name: String? = null,
     var age: Int? = null,
     var email: String? = null,
+    var password: String? = null,
     var employeeType: EmployeeType? = null
 )
 
@@ -18,6 +19,7 @@ fun convertToEmployeeEntity(dto: CreateOrUpdateEmployeeDTO): EmployeeEntity {
         name = dto.name,
         age = dto.age,
         email = dto.email,
+        password = dto.password,
         employeeType = dto.employeeType,
     )
 }

@@ -1,5 +1,6 @@
 package com.mindera.schoolmanagement.persistence.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.mindera.schoolmanagement.Enumerator.EmployeeType
 import javax.persistence.*
 
@@ -19,6 +20,10 @@ class EmployeeEntity(
 
     @Column(nullable = false)
     var email: String? = null,
+
+    @Column(nullable = false)
+    @JsonIgnore
+    var password: String? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
