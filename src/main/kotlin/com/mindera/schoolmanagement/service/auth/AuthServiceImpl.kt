@@ -24,7 +24,7 @@ class AuthServiceImpl(private val employeeRepository: EmployeeRepository) : Auth
         val detailsEmployeeDTO = convertToDetailsEmployeeDTO(employee)
 
         return ValidLoginDTO(
-            token = TokenGenerator().generateToken(detailsEmployeeDTO),
+            token = "Bearer " + TokenGenerator().generateToken(detailsEmployeeDTO),
             employeeDetails = detailsEmployeeDTO
         )
     }
