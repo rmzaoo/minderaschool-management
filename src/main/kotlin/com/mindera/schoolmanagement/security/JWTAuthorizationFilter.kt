@@ -54,11 +54,6 @@ class JWTAuthorizationFilter : OncePerRequestFilter() {
             response.status = HttpServletResponse.SC_FORBIDDEN
             response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
             return
-        } catch (e: Exception) {
-            logger.error("JWT Token is invalid")
-            response.status = HttpServletResponse.SC_FORBIDDEN
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)
-            return
         }
     }
 
