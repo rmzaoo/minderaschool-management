@@ -15,7 +15,19 @@ data class DetailsEmployeeDTO(
     var employeeType: EmployeeType? = null,
     var absenceEntities: List<Long?>? = null,
     var classroomID: Long? = null
-)
+) {
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "id" to id,
+            "name" to name,
+            "age" to age,
+            "email" to email,
+            "employeeType" to employeeType,
+            "absenceEntities" to absenceEntities,
+            "classroomID" to classroomID
+        )
+    }
+}
 
 fun convertToDetailsEmployeeDTO(entity: EmployeeEntity): DetailsEmployeeDTO {
     return DetailsEmployeeDTO(

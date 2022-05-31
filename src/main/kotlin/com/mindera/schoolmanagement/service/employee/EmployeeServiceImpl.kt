@@ -11,6 +11,8 @@ import com.mindera.schoolmanagement.persistence.entity.EmployeeEntity
 import com.mindera.schoolmanagement.persistence.repository.AbsenceRepository
 import com.mindera.schoolmanagement.persistence.repository.ClassroomRepository
 import com.mindera.schoolmanagement.persistence.repository.EmployeeRepository
+import com.mindera.schoolmanagement.util.PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.util.stream.Collector
@@ -38,7 +40,12 @@ class EmployeeServiceImpl(
     }
 
     override fun createEmployee(createOrUpdateEmployeeDTO: CreateOrUpdateEmployeeDTO): DetailsEmployeeDTO {
-        val employeeEntity = employeeRepository.save(convertToEmployeeEntity(createOrUpdateEmployeeDTO))
+        val employeeEntity = employeeRepository.save(
+            convertToEmployeeEntity(createOrUpdateEmployeeDTO).let {
+                it.password = PasswordEncoder().encode(it.password)
+                it
+            }
+        )
 
         return convertToDetailsEmployeeDTO(employeeEntity)
     }
