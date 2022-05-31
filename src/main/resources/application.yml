@@ -1,6 +1,6 @@
 springdoc:
-    swagger-ui:
-        path: /swagger-ui.html
+  swagger-ui:
+    path: /swagger-ui.html
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/${DB_DATABASE}
@@ -8,11 +8,21 @@ spring:
     password: ${DB_PASSW}
   jpa:
     hibernate:
-        ddl-auto: validate
+      ddl-auto: validate
     show-sql: false
     properties:
-        hibernate:
-            format_sql: false
+      hibernate:
+        format_sql: false
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+
 app:
   security:
     jwt:

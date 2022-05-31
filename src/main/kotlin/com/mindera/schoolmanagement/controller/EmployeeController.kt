@@ -3,6 +3,7 @@ package com.mindera.schoolmanagement.controller
 import com.mindera.schoolmanagement.dto.absence.DetailsAbsenceDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.CreateOrUpdateEmployeeDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.DetailsEmployeeDTO
+import com.mindera.schoolmanagement.security.IsTeacher
 import com.mindera.schoolmanagement.service.employee.EmployeeService
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
@@ -13,6 +14,7 @@ import java.time.LocalDate
 class EmployeeController(private val employeeService: EmployeeService) {
 
     @GetMapping("/employees")
+    @IsTeacher
     fun getAllEmployees(): ResponseEntity<List<DetailsEmployeeDTO>> {
         return ResponseEntity.ok(employeeService.getEmployees())
     }
