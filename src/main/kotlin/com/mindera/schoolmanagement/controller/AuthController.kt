@@ -21,12 +21,11 @@ class AuthController(private val authService: AuthService) {
             .from("Authorization", validLoginDTO.token!!)
             .httpOnly(true)
             .secure(false)
-            .maxAge(-1)
+            .path("/")
             .build()
 
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(validLoginDTO)
 
-//        return ResponseEntity.ok(authService.login(loginUserDTO))
     }
 }

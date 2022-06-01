@@ -12,11 +12,6 @@ import javax.servlet.http.HttpServletResponse
 
 class JWTAuthorizationFilter : OncePerRequestFilter() {
 
-    private val HEADER = "Authorization"
-    private val PREFIX = "Bearer "
-    private val SECRET = System.getenv("JWT_SECRET") ?: "noSafeSecretToken"
-
-
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -57,27 +52,18 @@ class JWTAuthorizationFilter : OncePerRequestFilter() {
         }
     }
 
-
     private fun validateToken(request: HttpServletRequest): Claims {
-        val jwtToken: String = request.getHeader(HEADER).replace(PREFIX, "")
-        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(jwtToken).body
-    }
+        val jwtSecret = System.getenv("JWT_SECRET") ?: "noSafeSecretToken"
 
-
-    private fun setUpSpringAuthentication(claims: Claims) {
-        val authorities = claims["authorities"]
-
-
-        val auth = UsernamePasswordAuthenticationToken(
-            "user", null,
-            listOf(SimpleGrantedAuthority("ROLE_TEACHER"))
-        )
-
-        SecurityContextHolder.getContext().authentication = auth
+        val jwtToken: String = request.getHeader("Authorization").replace("Bearer ", "")
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken).body
     }
 
     private fun checkJWTToken(request: HttpServletRequest, res: HttpServletResponse): Boolean {
-        val authenticationHeader = request.getHeader(HEADER)
-        return !(authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
+        val authenticationHeader = request.getHeader("Authorization")
+        return !(authenticationHeader == null || !authenticationHeader.startsWith("Bearer "))
     }
+
+
 }
+

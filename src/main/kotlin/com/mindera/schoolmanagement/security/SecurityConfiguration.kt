@@ -1,18 +1,19 @@
 package com.mindera.schoolmanagement.security
 
-import com.mindera.schoolmanagement.service.auth.AuthServiceImpl
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jwts
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.web.authentication.HttpStatusEntryPoint
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 
 @Configuration
@@ -25,8 +26,9 @@ class SecurityConfiguration() : WebSecurityConfigurerAdapter() {
         http
             .cors()
             .and()
+            .addFilterBefore(CookieAuthFilter(), BasicAuthenticationFilter::class.java)
+            .addFilterBefore(JWTAuthorizationFilter(), CookieAuthFilter::class.java)
             .csrf().disable()
-            .addFilterBefore(JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .authorizeRequests()
             .antMatchers("/actuator/**").permitAll()
             .antMatchers("/favicon.ico").permitAll()
@@ -36,4 +38,18 @@ class SecurityConfiguration() : WebSecurityConfigurerAdapter() {
 
     }
 
+}
+
+
+
+fun setUpSpringAuthentication(claims: Claims) {
+    val authorities = claims["authorities"]
+
+
+    val auth = UsernamePasswordAuthenticationToken(
+        "user", null,
+        listOf(SimpleGrantedAuthority("ROLE_TEACHER"))
+    )
+
+    SecurityContextHolder.getContext().authentication = auth
 }
