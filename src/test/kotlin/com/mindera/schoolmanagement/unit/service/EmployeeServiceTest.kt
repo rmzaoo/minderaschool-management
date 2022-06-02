@@ -1,6 +1,9 @@
 package com.mindera.schoolmanagement.unit.service
 
+import com.mindera.schoolmanagement.Enumerator.EmployeeType
 import com.mindera.schoolmanagement.MockedData
+import com.mindera.schoolmanagement.dto.absence.DetailsAbsenceDTO
+import com.mindera.schoolmanagement.dto.absence.convertToDetailsAbsenceDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.DetailsEmployeeDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.convertToDetailsEmployeeDTO
 import com.mindera.schoolmanagement.exception.exceptions.ClassroomNotFoundException
@@ -21,6 +24,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.LocalDate
 import java.util.*
 import java.util.stream.Collectors
 
@@ -40,6 +44,8 @@ class EmployeeServiceTest {
     private var employeeMock: MockedData.MockEmployee = MockedData().MockEmployee()
 
     private var classroomMock: MockedData.MockClassroom = MockedData().MockClassroom()
+
+    private var absenceMock: MockedData.MockAbsence = MockedData().MockAbsence()
 
 
     @BeforeEach
@@ -179,41 +185,105 @@ class EmployeeServiceTest {
 
         @Test
         fun test_getStudentsByClassroomId_shouldReturnSuccess() {
-            //todo: make test
+            val classroomId = 1L
+            val studentList = employeeMock.getEmployeeEntityList().stream()
+                .filter { it.employeeType == EmployeeType.Student }
+                .map { convertToDetailsEmployeeDTO(it) }
+                .collect(Collectors.toList())
+
+            `when`(employeeRepository?.findAllByClassroomEntityId(classroomId)).thenReturn(employeeMock.getEmployeeEntityList())
+
+            val response = employeeService?.getStudentsByClassroomId(classroomId)
+
+            assertEquals(studentList, response)
         }
 
         @Test
         fun test_getTeachersByClassroomId_shouldReturnSuccess() {
-            //todo: make test
+            val classroomId = 1L
+            val teacherList = employeeMock.getTeacherEntityList().stream()
+                .filter { it.employeeType == EmployeeType.Teacher }
+                .map { convertToDetailsEmployeeDTO(it) }
+                .collect(Collectors.toList())
+
+            `when`(employeeRepository?.findAllByClassroomEntityId(classroomId)).thenReturn(employeeMock.getTeacherEntityList())
+
+            val response = employeeService?.getTeacherByClassroomId(classroomId)
+
+            assertEquals(teacherList, response)
         }
 
     }
 
     @Nested
-    inner class GetEmployeeAbsences(){
+    inner class GetEmployeeAbsences() {
 
         @Test
-        fun test_getEmployeeAbsencesById_shouldReturnSuccess(){
-            //todo: make test
+        fun test_getEmployeeAbsencesById_shouldReturnSuccess() {
+            val employeeID = 1L
+            val absenceList: List<DetailsAbsenceDTO> = absenceMock.getAbsenceEntityList().stream()
+                .map { convertToDetailsAbsenceDTO(it) }
+                .collect(Collectors.toList())
+            val employeeEntity = employeeMock.getEmployeeEntity().apply {
+                this.absenceEntities = absenceMock.getAbsenceEntityList()
+            }
+
+
+            `when`(employeeRepository?.findById(employeeID)).thenReturn(Optional.of(employeeEntity))
+
+            val response = employeeService?.getEmployeeAbsences(employeeID)
+
+
+            assertEquals(absenceList, response)
         }
 
         @Test
-        fun test_getEmployeeAbsencesById_shouldReturnEmployeeNotFoundException(){
-            //todo: make test
+        fun test_getEmployeeAbsencesById_shouldReturnEmployeeNotFoundException() {
+            val employeeID = 1L
+
+            `when`(employeeRepository?.findById(employeeID)).thenReturn(Optional.empty())
+
+            val action = Executable { employeeService?.getEmployeeAbsences(employeeID) }
+
+            assertThrows(EmployeeNotFoundException::class.java, action)
         }
 
     }
 
     @Nested
-    inner class GetEmployeeAbsencesBetweenDates(){
+    inner class GetEmployeeAbsencesBetweenDates() {
         @Test
-        fun test_getEmployeeAbsencesBetweenDates_shouldReturnSuccess(){
-            //todo: make test
+        fun test_getEmployeeAbsencesBetweenDates_shouldReturnSuccess() {
+            val employeeID = 1L
+            val startDate = LocalDate.of(2020, 1, 1)
+            val endDate = LocalDate.of(2020, 1, 31)
+            val absenceList: List<DetailsAbsenceDTO> = absenceMock.getAbsenceEntityList().stream()
+                .filter { it.date!!.isAfter(startDate) && it.date!!.isBefore(endDate) }
+                .map { convertToDetailsAbsenceDTO(it) }
+                .collect(Collectors.toList())
+            val employeeEntity = employeeMock.getEmployeeEntity().apply {
+                this.absenceEntities = absenceMock.getAbsenceEntityList()
+            }
+
+            `when`(employeeRepository?.findById(employeeID)).thenReturn(Optional.of(employeeEntity))
+
+            val response = employeeService?.getEmployeeAbsencesBetweenDates(employeeID, startDate, endDate)
+
+            assertEquals(absenceList, response)
+
         }
 
         @Test
-        fun test_getEmployeeAbsencesBetweenDates_shouldReturnEmployeeNotFoundException(){
-            //todo: make test
+        fun test_getEmployeeAbsencesBetweenDates_shouldReturnEmployeeNotFoundException() {
+            val employeeID = 1L
+            val startDate = LocalDate.of(2020, 1, 1)
+            val endDate = LocalDate.of(2020, 1, 31)
+
+            `when`(employeeRepository?.findById(employeeID)).thenReturn(Optional.empty())
+
+            val action = Executable { employeeService?.getEmployeeAbsencesBetweenDates(employeeID, startDate, endDate) }
+
+            assertThrows(EmployeeNotFoundException::class.java, action)
         }
 
     }

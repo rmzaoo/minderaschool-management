@@ -18,6 +18,10 @@ class MockedData {
             return Collections.singletonList(getEmployeeEntity())
         }
 
+        fun getTeacherEntityList(): List<EmployeeEntity> {
+            return Collections.singletonList(getTeacherEntity())
+        }
+
         fun getEmployeeEntity(): EmployeeEntity {
             return EmployeeEntity(
                 id = 1L,
@@ -25,8 +29,21 @@ class MockedData {
                 age = 23,
                 email = "jubileu.dias@school.mindera.com",
                 password = "12345",
-                employeeType = EmployeeType.Student
-            )
+                employeeType = EmployeeType.Student,
+
+                )
+        }
+
+        fun getTeacherEntity(): EmployeeEntity {
+            return EmployeeEntity(
+                id = 2L,
+                name = "Alberto Dias",
+                age = 23,
+                email = "alberto.dias@school.mindera.com",
+                password = "12345",
+                employeeType = EmployeeType.Teacher,
+
+                )
         }
 
         fun getCreateOrUpdateEmployeeDTO(): CreateOrUpdateEmployeeDTO {
@@ -51,7 +68,9 @@ class MockedData {
         fun getClassroomEntity(): ClassroomEntity {
             return ClassroomEntity(
                 id = 1L,
-                name = "classroom-2021-2022"
+                name = "classroom-2021-2022",
+                employeeEntities = MockEmployee().getEmployeeEntityList()
+
             )
         }
     }
@@ -67,7 +86,8 @@ class MockedData {
             return AbsenceEntity(
                 id = 1L,
                 date = LocalDate.of(2022,11,15),
-                reason = "I have a consulta on Medic and i need leeve at five. I need to leave, I need abandonar"
+                reason = "I have a consulta on Medic and i need leeve at five. I need to leave, I need abandonar",
+                employeeEntity = MockEmployee().getEmployeeEntity()
             )
         }
     }
