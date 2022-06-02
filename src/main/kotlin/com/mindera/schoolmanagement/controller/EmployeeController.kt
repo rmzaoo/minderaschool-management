@@ -40,7 +40,7 @@ class EmployeeController(private val employeeService: EmployeeService) {
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?
     ): ResponseEntity<List<DetailsAbsenceDTO>> {
         startDate
-            ?: return ResponseEntity.ok(employeeService.getAbsences(id)) // if startDate is null, return all absences
+            ?: return ResponseEntity.ok(employeeService.getEmployeeAbsences(id)) // if startDate is null, return all absences
 
         return ResponseEntity.ok(employeeService.getEmployeeAbsencesBetweenDates(id, startDate, endDate ?: startDate))
 

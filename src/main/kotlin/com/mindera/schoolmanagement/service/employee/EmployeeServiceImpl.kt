@@ -82,7 +82,7 @@ class EmployeeServiceImpl(
             .collect(Collectors.toList())
     }
 
-    override fun getAbsences(employeeId: Long): List<DetailsAbsenceDTO> {
+    override fun getEmployeeAbsences(employeeId: Long): List<DetailsAbsenceDTO> {
         val student = employeeRepository.findById(employeeId).orElseThrow {
             throw EmployeeNotFoundException("Student with id $employeeId not found")
         }

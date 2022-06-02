@@ -22,7 +22,7 @@ interface EmployeeService {
 
     fun getTeacherByClassroomId(classroomId: Long): List<DetailsEmployeeDTO>
 
-    fun getAbsences(employeeId: Long): List<DetailsAbsenceDTO>
+    fun getEmployeeAbsences(employeeId: Long): List<DetailsAbsenceDTO>
 
     fun getEmployeeAbsencesBetweenDates(employeeId: Long, startDate: LocalDate, endDate: LocalDate): List<DetailsAbsenceDTO>
 

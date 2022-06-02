@@ -173,4 +173,49 @@ class EmployeeServiceTest {
 
         }
     }
+
+    @Nested
+    inner class GetStudentsAndTeachersByClassroomId {
+
+        @Test
+        fun test_getStudentsByClassroomId_shouldReturnSuccess() {
+            //todo: make test
+        }
+
+        @Test
+        fun test_getTeachersByClassroomId_shouldReturnSuccess() {
+            //todo: make test
+        }
+
+    }
+
+    @Nested
+    inner class GetEmployeeAbsences(){
+
+        @Test
+        fun test_getEmployeeAbsencesById_shouldReturnSuccess(){
+            //todo: make test
+        }
+
+        @Test
+        fun test_getEmployeeAbsencesById_shouldReturnEmployeeNotFoundException(){
+            //todo: make test
+        }
+
+    }
+
+    @Nested
+    inner class GetEmployeeAbsencesBetweenDates(){
+        @Test
+        fun test_getEmployeeAbsencesBetweenDates_shouldReturnSuccess(){
+            //todo: make test
+        }
+
+        @Test
+        fun test_getEmployeeAbsencesBetweenDates_shouldReturnEmployeeNotFoundException(){
+            //todo: make test
+        }
+
+    }
+
 }
