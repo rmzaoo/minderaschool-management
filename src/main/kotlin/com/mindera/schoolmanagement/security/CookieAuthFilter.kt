@@ -1,7 +1,6 @@
 package com.mindera.schoolmanagement.security
 
 import io.jsonwebtoken.*
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 import java.util.*
 import java.util.stream.Collectors
@@ -30,8 +29,7 @@ class CookieAuthFilter : OncePerRequestFilter() {
                     val claims: Claims = validateToken(token)
                     setUpSpringAuthentication(claims)
                 }
-            }
-            catch (e: ExpiredJwtException) {
+            } catch (e: ExpiredJwtException) {
                 logger.error("JWT Token is expired")
                 response.status = HttpServletResponse.SC_FORBIDDEN
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, e.message)

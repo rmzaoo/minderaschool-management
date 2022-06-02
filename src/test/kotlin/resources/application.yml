@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test_db
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+
+#app:
+#  security:
+#    jwt:
+#      secret: ${JWT_SECRET:jwtsecret}
+#      expiration: ${JWT_EXPIRATION:24}

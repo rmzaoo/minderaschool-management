@@ -6,6 +6,7 @@ import com.mindera.schoolmanagement.dto.employeeDTO.CreateOrUpdateEmployeeDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.DetailsEmployeeDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.convertToDetailsEmployeeDTO
 import com.mindera.schoolmanagement.dto.employeeDTO.convertToEmployeeEntity
+import com.mindera.schoolmanagement.exception.exceptions.ClassroomNotFoundException
 import com.mindera.schoolmanagement.exception.exceptions.EmployeeNotFoundException
 import com.mindera.schoolmanagement.persistence.entity.EmployeeEntity
 import com.mindera.schoolmanagement.persistence.repository.AbsenceRepository
@@ -52,7 +53,7 @@ class EmployeeServiceImpl(
 
     override fun updateEmployeeClassroom(id: Long, classroomId: Long): DetailsEmployeeDTO {
         val classroom = classroomRepository.findById(classroomId)
-            .orElseThrow { throw EmployeeNotFoundException("Classroom with id $classroomId not found") }
+            .orElseThrow { throw ClassroomNotFoundException("Classroom with id $classroomId not found") }
 
         val employee = employeeRepository.findById(id)
             .orElseThrow { throw EmployeeNotFoundException("Employee with id $id not found") }
