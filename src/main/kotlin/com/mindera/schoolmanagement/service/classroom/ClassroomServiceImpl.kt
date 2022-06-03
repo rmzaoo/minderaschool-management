@@ -1,12 +1,13 @@
 package com.mindera.schoolmanagement.service.classroom
 
-import com.mindera.schoolmanagement.dto.classroomDto.*
+import com.mindera.schoolmanagement.dto.classroomDto.CreateOrUpdateClassroomDTO
+import com.mindera.schoolmanagement.dto.classroomDto.DetailsClassroomDTO
+import com.mindera.schoolmanagement.dto.classroomDto.convertToClassroomEntity
+import com.mindera.schoolmanagement.dto.classroomDto.convertToDetailsClassroomDTO
 import com.mindera.schoolmanagement.exception.exceptions.ClassroomNotFoundException
 import com.mindera.schoolmanagement.persistence.entity.ClassroomEntity
 import com.mindera.schoolmanagement.persistence.repository.ClassroomRepository
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.lang.String
 import java.util.stream.Collectors
 
 @Service
